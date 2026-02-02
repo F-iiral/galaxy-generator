@@ -1,0 +1,73 @@
+{
+    manual: false
+    parameters: {
+        size: 4000
+        arms: 4
+        stars: 160000
+        type: "Sb"
+    }
+    galaxy_types: {
+        Sa:  {
+            tightness: 0.6,
+            bar: 0.0,
+            core_spread: 1.2,
+            core_chance: 0.1
+        }
+        Sb:  {
+            tightness: 0.4,
+            bar: 0.0,
+            core_spread: 1.0,
+            core_chance: 0.1
+        }
+        Sc:  {
+            tightness: 0.3,
+            bar: 0.0,
+            core_spread: 0.7,
+            core_chance: 0.1
+        }
+    }
+    generation: {
+        fragmentation: {
+            hyperlanes: 0.3
+            small_hyperlanes: 0.1
+            nebula: 1.75
+            stars: 2.5
+            spirals: 3
+        }
+        nebula: {
+            amount_factor: 10
+            band_spacing: 3.0
+            band_thickness: 0.4
+        }
+        disk: {
+            amount_factor: 12500
+        }
+        dust: {
+            amount_factor: 8000
+        }
+        spirals: {
+            amount_factor: 2000
+        }
+        hyperlanes: {
+            step_size: 0.05
+            main_length_factor: 18
+            main_length_alpha: 4
+            main_length_beta: 5
+            hyperlane_max_length_factor: 20
+            main_drift: 0.02
+            break_chance_min: 0.6
+            break_chance_max: 1
+            cluster_chance: 0.1
+            cluster_size_factor: 15
+            cluster_size_alpha: 2
+            cluster_size_beta: 5
+            branch_chance: 0.1
+            branch_length_factor: 20
+            branch_length_alpha: 3
+            branch_length_beta: 5
+            branch_drift_mu: 0
+            branch_drift_sigma: 80
+            special_generation_distance: 4
+        }
+    }
+}
