@@ -1,6 +1,6 @@
 import time
 from concurrent.futures import ProcessPoolExecutor
-from multiprocessing import Manager
+import multiprocessing
 from PIL import Image
 from src.generate_background import generate_background
 from src.generate_dust import generate_dust_lanes
@@ -98,6 +98,7 @@ def generate_galaxy(settings: Settings, size:int, galaxy_type:str, arms:int, num
     time.sleep(10)
 
 if __name__ == "__main__":
+    multiprocessing.freeze_support()
     settings = load_settings()
 
     if settings.manual:

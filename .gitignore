@@ -1,3 +1,6 @@
 *.png
 *.pyc
 .vscode/
+.venv/
+dist/
+build/
