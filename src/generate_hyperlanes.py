@@ -77,7 +77,7 @@ def generate_side_hyperlane(draw: ImageDraw.ImageDraw, settings: Settings, galax
 
     break_chance_min = settings.generation.hyperlanes.break_chance_max
     break_chance_min = settings.generation.hyperlanes.break_chance_min
-    hyperlane_condition = random.uniform(break_chance_min, break_chance_min)
+    hyperlane_condition = 1- random.uniform(break_chance_min, break_chance_min)
 
     for _ in range(branch_length):
         branch_r += step_size
@@ -108,7 +108,7 @@ def generate_main_hyperlane(draw: ImageDraw.ImageDraw, settings: Settings, galax
     special_generation_distance = settings.generation.hyperlanes.special_generation_distance
 
     main_drift = random.uniform(-main_drift, main_drift)
-    hyperlane_condition = random.uniform(break_chance_min, break_chance_min)
+    hyperlane_condition = 1 - random.uniform(break_chance_min, break_chance_min)
     path_stars = []
 
     max_r = int(random.betavariate(main_length_alpha, main_length_beta) * main_length_factor)

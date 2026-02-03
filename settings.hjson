@@ -1,17 +1,20 @@
 {
+    // Decides if paramters should be set manually or not
     manual: false
+
+    // Parameters to use if run in automatic mode
     parameters: {
-        size: 4000
-        arms: 4
-        stars: 160000
-        type: "Sb"
+        size: 4000                  // Side length of the produced image (in px)
+        arms: 4                     // Amount of spiral arms to generate
+        stars: 160000               // Amount of star spawn attempts
+        type: "Sb"                  // Type of Galaxy to spawn
     }
     galaxy_types: {
         Sa:  {
-            tightness: 0.6,
-            bar: 0.0,
-            core_spread: 1.2,
-            core_chance: 0.1
+            tightness: 0.6,         // Tightness of the spiral
+            bar: 0.0,               // Length of the central bar
+            core_spread: 1.2,       // Width of the core
+            core_chance: 0.1        // Amount of spawn attempts in the core
         }
         Sb:  {
             tightness: 0.4,
@@ -27,6 +30,7 @@
         }
     }
     generation: {
+        // How fragmented different features spawn - Volatile
         fragmentation: {
             hyperlanes: 0.3
             small_hyperlanes: 0.1
@@ -35,39 +39,43 @@
             spirals: 3
         }
         nebula: {
-            amount_factor: 10
-            band_spacing: 3.0
-            band_thickness: 0.4
+            amount_factor: 10       // Amount of nebulas per arm
+            band_spacing: 3.0       // Spacing particles in te arm
+            band_thickness: 0.4     // Width of the arms
         }
         disk: {
-            amount_factor: 12500
+            amount_factor: 12500    // Amount of particles in the disk
         }
         dust: {
-            amount_factor: 8000
+            amount_factor: 8000     // Amount of particles in the dust clouds
         }
         spirals: {
-            amount_factor: 2000
+            amount_factor: 2000     // Amount of particles in the spiral arms
         }
         hyperlanes: {
-            step_size: 0.05
-            main_length_factor: 18
-            main_length_alpha: 4
-            main_length_beta: 5
-            hyperlane_max_length_factor: 20
-            main_drift: 0.02
-            break_chance_min: 0.6
-            break_chance_max: 1
-            cluster_chance: 0.1
-            cluster_size_factor: 15
-            cluster_size_alpha: 2
-            cluster_size_beta: 5
-            branch_chance: 0.1
-            branch_length_factor: 20
-            branch_length_alpha: 3
-            branch_length_beta: 5
-            branch_drift_mu: 0
-            branch_drift_sigma: 80
-            special_generation_distance: 4
+            step_size: 0.05                     // How large each step in the generation is (in radii)
+            hyperlane_max_length_factor: 20     // Factor for how long each hyperlane can be (in x^-1 of image width)
+            break_chance_min: 0                 // Chance for each hyperlane link to be broken
+            break_chance_max: 0.4               // Chance for each hyperlane link to be broken
+
+            main_length_factor: 18              // Multiplication factor for the main hyperlane length (in arbitrary units)
+            main_length_alpha: 4                // Alpha            "
+            main_length_beta: 5                 // Beta             "
+            main_drift: 5                       // How much the main hyperlane can drift to either side from the ideal arm (in degree)
+
+            special_generation_distance: 4      // How far special features need to be apart (in steps)
+
+            cluster_chance: 0.1                 // Chance to spawn a cluster
+            cluster_size_factor: 15             // Multiplication factor for the size of a cluster
+            cluster_size_alpha: 2               // Alpha            "
+            cluster_size_beta: 5                // Beta             "
+
+            branch_chance: 0.1                  // Chance to spawn a side branch
+            branch_length_factor: 20            // Multiplication factor for the length of a cluster
+            branch_length_alpha: 3              // Alpha            "
+            branch_length_beta: 5               // Beta             "
+            branch_drift_mu: 0                  // Mu value for the drift of a branch from its parent
+            branch_drift_sigma: 80              // Sigma            "
         }
     }
 }
