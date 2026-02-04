@@ -6,6 +6,9 @@ from src.utils.functions import get_random_coordinate_on_spiral
 from src.utils.settings import Settings, GalaxyType
 
 def generate_nebula(settings: Settings, galaxy_config: GalaxyType, center: int, scale: float, size: int, arms: int) -> Result:
+    if not settings.steps.nebula:
+        return Result(None, Image.new("RGBA", (1, 1), (0, 0, 0, 0)))
+
     start_time = time.time()
     h2_regions = Image.new("RGBA", (size, size), (0, 0, 0, 0))
     draw = ImageDraw.Draw(h2_regions)

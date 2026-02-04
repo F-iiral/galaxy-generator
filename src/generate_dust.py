@@ -6,6 +6,9 @@ from src.utils.settings import Settings, GalaxyType
 from src.utils.result_obj import Result
 
 def generate_dust_lanes(settings: Settings, galaxy_config: GalaxyType, center: int, scale: float, size: int, arms: int) -> Result:
+    if not settings.steps.dust:
+        return Result(None, Image.new("RGBA", (1, 1), (0, 0, 0, 0)))
+
     start_time = time.time()
     dust_mask = Image.new("L", (size, size), 0)
     draw = ImageDraw.Draw(dust_mask)

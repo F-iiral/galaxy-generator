@@ -159,6 +159,9 @@ def generate_main_hyperlane(draw: ImageDraw.ImageDraw, settings: Settings, galax
 
 
 def generate_hyperlanes(settings: Settings, galaxy_config: GalaxyType, center: int, scale: float, size: int, arms: int, star_coords: set[tuple[int, int]]) -> Result:
+    if (not settings.steps.stars) or (not settings.steps.stars):
+        return Result(None, Image.new("RGBA", (1, 1), (0, 0, 0, 0)))
+
     global step_size, branch_chance, cluster_chance, hyperlane_max_length, hyperlane_max_length_sqr
     start_time = time.time()
     lane_img = Image.new("RGBA", (size, size), (0, 0, 0, 0))

@@ -1,5 +1,6 @@
 *.png
 *.pyc
+galaxy_layers.zip
 .vscode/
 .venv/
 dist/

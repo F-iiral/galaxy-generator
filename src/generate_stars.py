@@ -38,6 +38,9 @@ def draw_star(draw, px, py, color, shape) -> None:
     draw.point((px, py), fill=core_color)
 
 def generate_stars(settings: Settings, galaxy_config: GalaxyType, center: int, scale: float, size: int, arms: int, num_stars: int) -> Result:
+    if not settings.steps.stars:
+        return Result(None, Image.new("RGBA", (1, 1), (0, 0, 0, 0)))
+
     start_time = time.time()
     stars = Image.new("RGBA", (size, size), (0, 0, 0, 0))
     star_draw = ImageDraw.Draw(stars, "RGBA")

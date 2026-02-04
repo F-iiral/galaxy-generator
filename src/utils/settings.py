@@ -80,11 +80,26 @@ class Generation:
         self.fragmentation = Fragmentation(**self.fragmentation)    #type: ignore
 
 @dataclass
+class Steps:
+    stars: bool
+    spirals: bool
+    nebula: bool
+    dust: bool
+    hyperlanes: bool
+
+@dataclass
+class Export:
+    png: bool
+    zip: bool
+
+@dataclass
 class Settings:
     manual: bool
     parameters: Parameters
     galaxy_types: dict[str, GalaxyType]
     generation: Generation
+    steps: Steps
+    export: Export
 
     def __post_init__(self):
         self.parameters = Parameters(**self.parameters) #type: ignore
@@ -93,3 +108,5 @@ class Settings:
             key: GalaxyType(**value) if isinstance(value, dict) else value
             for key, value in self.galaxy_types.items()
         }
+        self.steps = Steps(**self.steps) #type: ignore
+        self.export = Export(**self.export) #type: ignore

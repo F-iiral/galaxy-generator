@@ -78,4 +78,17 @@
             branch_drift_sigma: 80              // Sigma            "
         }
     }
+    // Which generation steps to do
+    steps : {
+        stars: true                 // Also disables hyperlanes implicitly
+        spirals: true
+        nebula: true
+        dust: true
+        hyperlanes: true
+    }
+    // Which export steps to do
+    export: {
+        png: true
+        zip: true
+    }
 }

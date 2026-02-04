@@ -2,6 +2,8 @@ import time
 from concurrent.futures import ProcessPoolExecutor
 import multiprocessing
 from PIL import Image
+from src.export_zip import export_as_zip
+from src.export_png import export_as_png
 from src.generate_background import generate_background
 from src.generate_dust import generate_dust_lanes
 from src.generate_hyperlanes import generate_hyperlanes
@@ -9,6 +11,7 @@ from src.generate_nebula import generate_nebula
 from src.generate_spirals import generate_spiral_arms
 from src.generate_stars import generate_stars
 from src.utils.settings import Settings
+from src.utils.result_obj import Result
 import hjson
 import os
 
@@ -63,36 +66,29 @@ def generate_galaxy(settings: Settings, size:int, galaxy_type:str, arms:int, num
 
     hyperlane_result = generate_hyperlanes(settings, galaxy_config, center, scale, size, arms, stars.data[0])
 
-    comp_time = time.time()
-    img = background.image
-    img.alpha_composite(arm_1.image, (0, 0))
-    img.alpha_composite(arm_2.image, (0, 0))
-    img.alpha_composite(arm_3.image, (0, 0))
-    img.alpha_composite(arm_4.image, (0, 0))
-    img.alpha_composite(arm_5.image, (0, 0))
-    img.alpha_composite(h2_nebula.image, (0, 0))
-    img.alpha_composite(hyperlane_result.image, (0, 0))
-    img.alpha_composite(stars.image, (0, 0))
+    print("Exporting...")
+    with ProcessPoolExecutor() as executor:
+        png_future = executor.submit(export_as_png, settings, size, background, arm_1, arm_2, arm_3, arm_4, arm_5, h2_nebula, hyperlane_result, stars, dust_nebula)
+        zip_future = executor.submit(export_as_zip, settings, size, background, arm_1, arm_2, arm_3, arm_4, arm_5, h2_nebula, hyperlane_result, stars, dust_nebula)
 
-    dust_layer = Image.new("RGBA", (size, size), (15, 10, 5, 255))
-    img.paste(dust_layer, (0, 0), mask=dust_nebula.image)
+        png = png_future.result()
+        zip = zip_future.result()
 
-    img.save("galaxy.png", "PNG")
-    img.show()
     print(f"Saved {size}x{size} PNG as galaxy.png")
-    print(f"Total stars placed: {stars.data[0].__len__()}/{num_stars}")
+    print(f"Total stars placed: {stars.data[0].__len__() if stars.data else "NaN"}/{num_stars}")
     print(f"""Generation took a total of {round(time.time() - start_time, 2)}s
-- Composition: {round(time.time() - comp_time, 2)}s
-- Background: {round(background.time, 2)}s
-- Spiral Arm Pass 1: {round(arm_1.time, 2)}s
-- Spiral Arm Pass 2: {round(arm_2.time, 2)}s
-- Spiral Arm Pass 3: {round(arm_3.time, 2)}s
-- Spiral Arm Pass 4: {round(arm_4.time, 2)}s
-- Spiral Arm Pass 5: {round(arm_5.time, 2)}s
-- Hydrogen Nebula: {round(h2_nebula.time, 2)}s
-- Dust Nebula: {round(dust_nebula.time, 2)}s
-- Hyperlanes: {round(hyperlane_result.time, 2)}s
-- Stars: {round(stars.time, 2)}s""")
+- Composition (PNG): {round(png.time, 2).__str__() + "s" if png.time else "[skipped]"}
+- Composition (ZIP): {round(zip.time, 2).__str__() + "s" if zip.time else "[skipped]"}
+- Background: {round(background.time, 2).__str__() + "s" if background.time else "[skipped]"}
+- Spiral Arm Pass 1: {round(arm_1.time, 2).__str__() + "s" if arm_1.time else "[skipped]"}
+- Spiral Arm Pass 2: {round(arm_2.time, 2).__str__() + "s" if arm_2.time else "[skipped]"}
+- Spiral Arm Pass 3: {round(arm_3.time, 2).__str__() + "s" if arm_3.time else "[skipped]"}
+- Spiral Arm Pass 4: {round(arm_4.time, 2).__str__() + "s" if arm_4.time else "[skipped]"}
+- Spiral Arm Pass 5: {round(arm_5.time, 2).__str__() + "s" if arm_5.time else "[skipped]"}
+- Hydrogen Nebula: {round(h2_nebula.time, 2).__str__() + "s" if h2_nebula.time else "[skipped]"}
+- Dust Nebula: {round(dust_nebula.time, 2).__str__() + "s" if dust_nebula.time else "[skipped]"}
+- Hyperlanes: {round(hyperlane_result.time, 2).__str__() + "s" if hyperlane_result.time else "[skipped]"}
+- Stars: {round(stars.time, 2).__str__() + "s" if stars.time else "[skipped]"}""")
 
     print("This window will close in 10 seconds.")
     time.sleep(10)

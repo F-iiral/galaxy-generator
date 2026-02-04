@@ -7,6 +7,9 @@ from src.utils.functions import get_random_coordinate_on_spiral, lerp_color
 from src.utils.settings import Settings, GalaxyType
 
 def generate_spiral_arms(settings: Settings, galaxy_config: GalaxyType, center: int, scale: float, size: int, arms: int, colors, weakness) -> Result:
+    if not settings.steps.spirals:
+        return Result(None, Image.new("RGBA", (1, 1), (0, 0, 0, 0)))
+
     start_time = time.time()
     nebula = Image.new("RGBA", (size, size), (0, 0, 0, 0))
     neb_draw = ImageDraw.Draw(nebula)
